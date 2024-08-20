@@ -15,10 +15,12 @@ namespace MagicVilla.Controllers
     {
         protected APIResponse _response;
         private readonly IVillaNumberRepository _dbVillaNumber;
+        private readonly IVillaRepository _dbVilla;
         private readonly IMapper _mapper;
-        public VillaNumberAPIControllers(IVillaNumberRepository dbVillaNumber, IMapper mapper)
+        public VillaNumberAPIControllers(IVillaNumberRepository dbVillaNumber, IVillaRepository dbVilla, IMapper mapper)
         {
             _dbVillaNumber = dbVillaNumber;
+            _dbVilla = dbVilla;
             _mapper = mapper;
             _response = new ();
            
@@ -95,11 +97,15 @@ namespace MagicVilla.Controllers
 
                 if (await _dbVillaNumber.GetAsync(u => u.VillaNo == villaDto.VillaNo) != null)
                 {
+                    ModelState.AddModelError("Custom Error", "Villa Number already Exit");
                     return BadRequest(ModelState);
                 }
+                if(await _dbVilla.GetAsync(u => u.Id == villaDto.VillaID) == null)
                 {
-
+                    ModelState.AddModelError("Custom Error", "Villa Id is invalid");
+                    return BadRequest(ModelState);
                 }
+
                 if (villaDto == null)
                 {
                     return BadRequest(villaDto);
@@ -189,6 +195,11 @@ namespace MagicVilla.Controllers
                 if (id != villaDto.VillaNo || villaDto == null)
                 {
                     return BadRequest();
+                }
+                if (await _dbVilla.GetAsync(u => u.Id == villaDto.VillaID) == null)
+                {
+                    ModelState.AddModelError("Custom Error", "Villa Id is invalid");
+                    return BadRequest(ModelState);
                 }
 
                 //  var villa = VillaStore.villaList.FirstOrDefault (u => u.Id == id);
