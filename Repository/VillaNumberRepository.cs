@@ -23,7 +23,7 @@ namespace MagicVilla.Repository
         public async Task<VillaNumber> UpdateAsync(VillaNumber entity)
         {
             entity.UpdatedDate = DateTime.Now;
-            _db.villaNumbers.Remove(entity);
+            _db.villaNumbers.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
         }
