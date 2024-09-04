@@ -1,4 +1,5 @@
 ﻿using MagicVilla.Model;
+using MagicVilla_Web.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MagicVilla.Data
@@ -11,7 +12,7 @@ namespace MagicVilla.Data
         {
 
         }
-
+        public DbSet<LocalUser> localUsers { get; set; }
         public DbSet<Villa> villas { get; set; }
         public DbSet<VillaNumber> villaNumbers { get; set; }
 
