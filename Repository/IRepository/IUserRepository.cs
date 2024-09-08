@@ -1,7 +1,8 @@
-﻿using MagicVilla.Model;
+﻿
+using MagicVilla.Model;
 using MagicVilla.Model.Dto;
 using MagicVilla_Web.Models;
-using MagicVilla_Web.Models.Dto;
+
 
 namespace MagicVilla.Repository.IRepository
 {

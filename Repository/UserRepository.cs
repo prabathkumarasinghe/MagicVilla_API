@@ -3,7 +3,6 @@ using MagicVilla.Model;
 using MagicVilla.Model.Dto;
 using MagicVilla.Repository.IRepository;
 using MagicVilla_Web.Models;
-using MagicVilla_Web.Models.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
