@@ -9,6 +9,7 @@ namespace MagicVilla.Controllers
 {
     [Route("api/v{version:apiVersion}/UsersAuth")]
     [ApiController]
+    [ApiVersionNeutral]
     public class UsersController : Controller
     {
 
@@ -18,7 +19,7 @@ namespace MagicVilla.Controllers
         public UsersController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            this._response = new APIResponse();
+            _response = new APIResponse();
         }
 
         [HttpPost("login")]

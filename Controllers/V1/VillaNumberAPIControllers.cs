@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace MagicVilla.Controllers
+namespace MagicVilla.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
     [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
+
     public class VillaNumberAPIControllers : ControllerBase
     {
         protected APIResponse _response;
@@ -32,7 +32,7 @@ namespace MagicVilla.Controllers
 
 
         [HttpGet]
-        [MapToApiVersion("1.0")]
+        //[MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
@@ -53,13 +53,6 @@ namespace MagicVilla.Controllers
             return _response;
         }
 
-        [MapToApiVersion("2.0")]
-        [HttpGet]
-        public IEnumerable<string> Get() 
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         [HttpGet("{id:int}", Name = "GetVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,7 +69,7 @@ namespace MagicVilla.Controllers
 
                 }
 
-                var villa = await _dbVillaNumber.GetAsync((u => u.VillaNo == id));
+                var villa = await _dbVillaNumber.GetAsync(u => u.VillaNo == id);
 
                 if (villa == null)
                 {
@@ -113,7 +106,7 @@ namespace MagicVilla.Controllers
                     ModelState.AddModelError("Custom Error", "Villa Number already Exit");
                     return BadRequest(ModelState);
                 }
-                if(await _dbVilla.GetAsync(u => u.Id == villaDto.VillaID) == null)
+                if (await _dbVilla.GetAsync(u => u.Id == villaDto.VillaID) == null)
                 {
                     ModelState.AddModelError("Custom Error", "Villa Id is invalid");
                     return BadRequest(ModelState);
@@ -123,10 +116,10 @@ namespace MagicVilla.Controllers
                 {
                     return BadRequest(villaDto);
                 }
-            //    if (villaDto.VillaNo > 0)
-            //    {
-            //        return StatusCode(StatusCodes.Status500InternalServerError);
-            //    }
+                //    if (villaDto.VillaNo > 0)
+                //    {
+                //        return StatusCode(StatusCodes.Status500InternalServerError);
+                //    }
 
                 VillaNumber villaNumber = _mapper.Map<VillaNumber>(villaDto);
                 /*        Villa model = new Villa()
@@ -195,7 +188,7 @@ namespace MagicVilla.Controllers
 
             return _response;
 
-        
+
 
         }
 
@@ -250,7 +243,7 @@ namespace MagicVilla.Controllers
             return _response;
         }
 
-        
+
     }
-   
+
 }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace MagicVilla.Controllers
+namespace MagicVilla.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
@@ -28,7 +28,7 @@ namespace MagicVilla.Controllers
 
 
         [HttpGet]
-        
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillas()
         {
@@ -65,7 +65,7 @@ namespace MagicVilla.Controllers
 
                 }
 
-                var villa = await _dbVilla.GetAsync((u => u.Id == id));
+                var villa = await _dbVilla.GetAsync(u => u.Id == id);
 
                 if (villa == null)
                 {
@@ -178,15 +178,15 @@ namespace MagicVilla.Controllers
 
             return _response;
 
-        
+
 
         }
 
-       
+
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        
+
         public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDto updateDTO)
         {
             try
@@ -213,5 +213,5 @@ namespace MagicVilla.Controllers
         }
 
     }
-   
+
 }
