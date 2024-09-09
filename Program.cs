@@ -31,7 +31,7 @@ namespace MagicVilla
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
             });
-
+            builder.Services.AddResponseCaching();
             builder.Services.AddScoped<IVillaRepository, VillaRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -70,7 +70,13 @@ namespace MagicVilla
         };
          });
 
-            builder.Services.AddControllers(option => { }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+            builder.Services.AddControllers(option => {
+                option.CacheProfiles.Add("Default30", 
+                    new CacheProfile()
+                    { 
+                    Duration = 30
+                    });
+            }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
