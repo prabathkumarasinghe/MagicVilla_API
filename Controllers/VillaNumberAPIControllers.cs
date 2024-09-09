@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using MagicVilla.Data;
 using MagicVilla.Model;
 using MagicVilla.Model.Dto;
@@ -10,8 +11,10 @@ using System.Net;
 
 namespace MagicVilla.Controllers
 {
-    [Route("api/VillaNumberAPI")]
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class VillaNumberAPIControllers : ControllerBase
     {
         protected APIResponse _response;
@@ -23,23 +26,24 @@ namespace MagicVilla.Controllers
             _dbVillaNumber = dbVillaNumber;
             _dbVilla = dbVilla;
             _mapper = mapper;
-            _response = new ();
-           
+            _response = new();
+
         }
 
 
         [HttpGet]
+        [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
             try
             {
-                IEnumerable<VillaNumber> villaListNumber = await _dbVillaNumber.GetAllAsync(includeproperties:"Villa");
+                IEnumerable<VillaNumber> villaListNumber = await _dbVillaNumber.GetAllAsync(includeproperties: "Villa");
                 _response.Result = _mapper.Map<List<VillaNumberDto>>(villaListNumber);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string> { e.Message };
@@ -47,6 +51,13 @@ namespace MagicVilla.Controllers
 
             }
             return _response;
+        }
+
+        [MapToApiVersion("2.0")]
+        [HttpGet]
+        public IEnumerable<string> Get() 
+        {
+            return new string[] { "value1", "value2" };
         }
 
         [HttpGet("{id:int}", Name = "GetVillaNumber")]

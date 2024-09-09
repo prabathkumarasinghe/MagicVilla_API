@@ -4,6 +4,7 @@ using MagicVilla.Data;
 using MagicVilla.Repository;
 using MagicVilla.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -36,6 +37,17 @@ namespace MagicVilla
             builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
             builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+            builder.Services.AddApiVersioning(options => {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+            });
+            
+            builder.Services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+            });
 
             var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 

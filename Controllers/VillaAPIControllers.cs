@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using MagicVilla.Data;
 using MagicVilla.Model;
 using MagicVilla.Model.Dto;
@@ -10,7 +11,7 @@ using System.Net;
 
 namespace MagicVilla.Controllers
 {
-    [Route("api/VillaAPI")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
     public class VillaAPIControllers : ControllerBase
     {
